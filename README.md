@@ -4,6 +4,8 @@ Our submission for the 2021 FRC Innovation Challenge
 
 # Installation
 
+Install git bash & node first
+
 https://docs.expo.io/get-started/installation/
 
 ```
