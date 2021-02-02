@@ -134,6 +134,10 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // Allows application to understand Redirect URI
+        manifestPlaceholders = [
+            appAuthRedirectScheme: 'com.beatrunner'
+        ]
     }
     splits {
         abi {

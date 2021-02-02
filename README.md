@@ -6,17 +6,5 @@ Our submission for the 2021 FRC Innovation Challenge
 
 Install git bash & node first
 
-https://docs.expo.io/get-started/installation/
+Then follow instructions outlined [here](https://reactnative.dev/docs/environment-setup).
 
-```
-git clone https://github.com/FRC830/innovation-challenge.git
-npm install --global expo-cli
-```
-
-https://docs.expo.io/workflow/android-studio-emulator/
-
-```
-cd innovation-challenge
-cd app
-npm start
-```
