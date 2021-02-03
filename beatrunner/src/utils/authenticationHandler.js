@@ -5,6 +5,9 @@ import {
 
 class AuthenticationHandler {
     constructor() {
+        // By default this uses PKCE, so we chillin I think
+        // https://formidable.com/blog/2018/oauth-and-pkce-with-react-native/
+        // https://developer.spotify.com/documentation/general/guides/authorization-guide/
         this.spotifyAuthConfig = {
             clientId: '370f7233346d4cf685017239885b2a44',
             clientSecret: '483ac84f7976456c9e721a48bb99203d',
