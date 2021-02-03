@@ -1,0 +1,13 @@
+// Editor autocompletion
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "_assets": ["src/assets/*"],
+      "_components": ["src/components/*"],
+      "_screens": ["src/screens/*"],
+      "_utils": ["src/utils/*"]
+    }
+  }
+}

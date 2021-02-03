@@ -6,5 +6,5 @@ Our submission for the 2021 FRC Innovation Challenge
 
 Install git bash & node first
 
-Then follow instructions outlined [here](https://reactnative.dev/docs/environment-setup).
+Then follow instructions outlined [here](https://reactnative.dev/docs/environment-setup) on the "React Native CLI Quickstart" tab.
 

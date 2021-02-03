@@ -8,7 +8,7 @@ class AuthenticationHandler {
         this.spotifyAuthConfig = {
             clientId: '370f7233346d4cf685017239885b2a44',
             clientSecret: '483ac84f7976456c9e721a48bb99203d',
-            redirectUrl: 'com.frc830.beatrunner://oauthredirect',
+            redirectUrl: 'com.beatrunner://oauthredirect',
             scopes: [
                 'playlist-read-private',
                 'playlist-modify-public',
@@ -26,10 +26,12 @@ class AuthenticationHandler {
 
     async onLogin() {
         try {
-            const result = await authorize(this.spotifyAuthConfig);
+            console.debug(`Logging in... ${JSON.stringify(this.spotifyAuthConfig)}`)
+            const result = await authorize(this.spotifyAuthConfig)
             console.log(result)
+            return result
         } catch (error) {
-            console.error(JSON.stringify(error))
+            console.log(error)
         }
     }
     async refreshLogin(refreshToken) {
@@ -39,3 +41,7 @@ class AuthenticationHandler {
         return result
     }
 }
+
+const authHandler = new AuthenticationHandler();
+
+export default authHandler;
