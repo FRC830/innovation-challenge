@@ -5,7 +5,7 @@ import {
 
 class AuthenticationHandler {
     constructor() {
-        // By default this uses PKCE, so we chillin I think
+        // By default this uses PKCE so it is fine to expose this information.
         // https://formidable.com/blog/2018/oauth-and-pkce-with-react-native/
         // https://developer.spotify.com/documentation/general/guides/authorization-guide/
         this.spotifyAuthConfig = {
