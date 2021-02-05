@@ -2,12 +2,13 @@
 
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "_assets": ["src/assets/*"],
-      "_components": ["src/components/*"],
-      "_screens": ["src/screens/*"],
-      "_utils": ["src/utils/*"]
+      "_assets": ["assets/*"],
+      "_components": ["components/*"],
+      "_screens": ["screens/*"],
+      "_utils": ["utils/*"],
+      "_redux": ["redux/*"]
     }
   }
 }
