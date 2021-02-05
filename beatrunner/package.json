@@ -15,7 +15,6 @@
     "react": "16.13.1",
     "react-native": "^0.63.4",
     "react-native-app-auth": "^6.0.2",
-    "react-native-spotify-remote": "^0.3.3",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0"
   },
