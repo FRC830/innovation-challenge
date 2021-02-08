@@ -29,19 +29,19 @@ class AuthenticationHandler {
 
     async onLogin() {
         try {
-            console.debug(`Logging in... ${JSON.stringify(this.spotifyAuthConfig)}`)
-            const result = await authorize(this.spotifyAuthConfig)
-            console.log(result)
-            return result
+            return await authorize(this.spotifyAuthConfig)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
     async refreshLogin(refreshToken) {
-        const result = await refresh(this.spotifyAuthConfig, {
-            refreshToken: refreshToken
-        })
-        return result
+        try {
+            return await refresh(this.spotifyAuthConfig, {
+            	refreshToken: refreshToken
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
 

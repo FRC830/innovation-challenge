@@ -12,7 +12,7 @@ const authenticationSlice = createSlice({
     },
     reducers: {
         setAccessToken(state, action) {
-            const {accessToken, accessExpiration }= action.payload
+            const {accessToken, accessExpiration } = action.payload
             state.accessToken = accessToken
             state.accessExpiration = accessExpiration
         },
