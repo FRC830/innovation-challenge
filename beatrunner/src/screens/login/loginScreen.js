@@ -17,8 +17,7 @@ function LoginScreen(props) {
     }
     return (
         <View>
-            <Button onPress={onPressLogin} title="Press to login?"/>
-            <Button onPress={() => Alert.alert('button pressed')} title="Create alert"/>
+            <Button onPress={onPressLogin} title="Press to login with Spotify"/>
             <Text> { props.authentication.accessExpiration } </Text>
         </View>
     )
@@ -32,4 +31,4 @@ const mapDispatchToProps = {
     setAccessToken, setRefreshToken
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

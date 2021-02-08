@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { View, Text, SafeAreaView } from 'react-native'
-import LoginScreen from '_screens/login/LoginScreen'
+import Navigator from '_screens/navigator/Navigator'
 
 // redux
 import { PersistGate } from 'redux-persist/es/integration/react'
@@ -22,8 +22,6 @@ let persistor = persistStore(store)
 // navigation
 
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-const Stack = createStackNavigator();
 
 function App() {
   // Provider - Redux store
@@ -35,13 +33,9 @@ function App() {
   return (
   <Provider store={store}>
     <PersistGate loading={<Text> Loading Store...</Text>} persistor={persistor}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <SafeAreaView>
-            <LoginScreen/>
-          </SafeAreaView>
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+          <Navigator/>
+        </NavigationContainer>
     </PersistGate>
   </Provider>
   )
