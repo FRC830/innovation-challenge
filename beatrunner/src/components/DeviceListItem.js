@@ -13,22 +13,28 @@ const MyText = styled.Text`
 const ListItemWrapper = styled.View`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: row;
     padding: 10px;
     background: lightgray;
 
 `
-const IconButton = styled.TouchableOpacity``
-const TrashIcon = styled(Icon)`
-    font-size: 30px;
+const IconButton = styled.TouchableOpacity`
+    margin-right: 5px;
 `
-function DeviceListItem(props) {
+const MyIcon = styled(Icon)`
+    font-size: 25px;
+`
+
+function DeviceListItem({onEdit, data}) {
     return (
         <ListItemWrapper>
-            <MyText>{props.name} - {props.id}</MyText>
+            <MyText>{data.name} - {data.id}</MyText>
+            <IconButton onPress={() => onEdit(data)}>
+                <MyIcon name={'pen'}/>
+            </IconButton>
             <IconButton onPress={() => Alert.alert('clicked 2')}>
-                <TrashIcon name={'trash'}/>
+                <MyIcon name={'trash'}/>
             </IconButton>
         </ListItemWrapper>
     )
