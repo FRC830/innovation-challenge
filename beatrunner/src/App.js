@@ -35,7 +35,7 @@ function App() {
   // *Screen - Our pages
   return (
   <Provider store={store}>
-    <PersistGate loading={<Text> Loading Store...</Text>} persistor={persistor}>
+    <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <Navigator/>
         </NavigationContainer>

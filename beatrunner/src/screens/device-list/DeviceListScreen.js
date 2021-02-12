@@ -1,37 +1,35 @@
 import React from 'react'
 
-import { View, Button, StyleSheet, Text, FlatList } from 'react-native'
+import styled from 'styled-components/native'
+import { FlatList, Button } from 'react-native'
 import { connect } from "react-redux"
 import { addDevice, removeDevice } from '_redux/features/deviceSlice'
+import DeviceListItem from '_components/DeviceListItem'
+const MyView = styled.View`
+    flex: 1;
+    padding-top: 22px;
+`
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingTop: 22
-	},
-	item: {
-		padding: 10,
-		fontSize: 18,
-		height: 44,
-	},
-})
+const MyText = styled.Text`
+    padding: 10px;
+    font-size: 18px;
+    height: 44px;
+`
 
 // https://reactnative.dev/docs/using-a-listview
 function DeviceListScreen({navigation, ...props}) {
     // renderItem has a lot of properties, including index, item, serparators,
     function renderListItem({ item }) {
         console.log('Rendering', item)
-        return (
-            <Text style={styles.item}>{item.name}</Text>
-        )
+        return DeviceListItem(item)
     }
     // note that the example uses javascript object for styles, though class + stylesheets may be better.
     return (
-        <View style={styles.container}>
-            <Text> Device List Screen </Text>
+        <MyView>
+            <MyText> Device List Screen </MyText>
             <FlatList data={props.devices} renderItem={renderListItem} />
             <Button onPress={() => navigation.navigate('Logout')} title="Navigate to logout screen" />
-        </View>
+        </MyView>
     )
 }
 

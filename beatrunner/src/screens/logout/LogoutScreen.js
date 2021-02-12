@@ -1,12 +1,24 @@
 import React from 'react'
 
-import { View, Button } from 'react-native'
+import styled from 'styled-components/native'
 
 import { connect } from "react-redux"
 import {
     setAccessToken,
     setRefreshToken,
 } from '_redux/features/authenticationSlice'
+
+const View = styled.View`
+    display: flex;
+    flex-direction: column;
+`
+const MyButton = styled.TouchableOpacity`
+    background: lightblue;
+    padding: 10px;
+    align-items: center
+`
+const Text = styled.Text``
+
 // "es6 object destructuring" eli/anthony if you are curious why it looks so weird
 function LogoutScreen({navigation, ...props}) {
     async function onPressLogout() {
@@ -18,8 +30,12 @@ function LogoutScreen({navigation, ...props}) {
     }
     return (
         <View>
-            <Button onPress={navigateToList} title="Navigate to device list" />
-            <Button onPress={onPressLogout} title="Press to logout"/>
+            <MyButton onPress={navigateToList}>
+                <Text>Navigate to device list</Text>
+            </MyButton>
+            <MyButton onPress={onPressLogout}>
+                <Text>Press to logout</Text>
+            </MyButton>
         </View>
     )
 }
