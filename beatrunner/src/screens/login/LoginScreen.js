@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Button, Alert, Text } from 'react-native'
+import { View, Button, Text } from 'react-native'
 
 import authHandler from '_utils/authenticationHandler'
 import { connect } from "react-redux"

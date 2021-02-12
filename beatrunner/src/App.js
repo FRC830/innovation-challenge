@@ -11,12 +11,15 @@ import Navigator from '_screens/navigator/Navigator'
 
 // redux
 import { PersistGate } from 'redux-persist/es/integration/react'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware  } from 'redux'
 import { Provider } from 'react-redux'
 import { persistStore } from 'redux-persist'
 import rootReducer from '_redux/reducers'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
-const store = createStore(rootReducer)
+const store = createStore(rootReducer, composeWithDevTools(
+  applyMiddleware(),
+))
 let persistor = persistStore(store)
 
 // navigation

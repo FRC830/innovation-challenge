@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-// https://redux-toolkit.js.org/tutorials/intermediate-tutorial
-// https://medium.com/javascript-in-plain-english/react-native-full-authentication-flow-with-spotify-bc0a5b895696
 
 const authenticationSlice = createSlice({
     name: 'authentication',

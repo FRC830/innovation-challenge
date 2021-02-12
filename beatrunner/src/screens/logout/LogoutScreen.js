@@ -1,19 +1,24 @@
 import React from 'react'
 
-import { View, Button, Alert, Text } from 'react-native'
+import { View, Button } from 'react-native'
 
 import { connect } from "react-redux"
 import {
     setAccessToken,
     setRefreshToken,
 } from '_redux/features/authenticationSlice'
-function LogoutScreen(props) {
+// "es6 object destructuring" eli/anthony if you are curious why it looks so weird
+function LogoutScreen({navigation, ...props}) {
     async function onPressLogout() {
         props.setAccessToken({accessToken: null, accessExpiration: null})
         props.setRefreshToken({refreshToken: null})
     }
+    async function navigateToList() {
+        navigation.navigate('DeviceList')
+    }
     return (
         <View>
+            <Button onPress={navigateToList} title="Navigate to device list" />
             <Button onPress={onPressLogout} title="Press to logout"/>
         </View>
     )
