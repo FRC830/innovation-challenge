@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components/native'
 import { FlatList, Button } from 'react-native'
 import { connect } from "react-redux"
-import { addDevice, removeDevice } from '_redux/features/deviceSlice'
+import { addDevice, removeDevice, setDeviceName } from '_redux/features/deviceSlice'
 import DeviceListItem from '_components/DeviceListItem'
 import DeviceEditModal from '_components/DeviceEditModal'
 const MyView = styled.View`
@@ -30,13 +30,20 @@ function DeviceListScreen({navigation, ...props}) {
         }
         return <DeviceListItem onEdit={updateState} data={item} />
     }
+    function handleEditDismiss(value) {
+        if (value !== null) {
+            props.setDeviceName({id: selectedItem.id, name: value})
+        }
+        setModalVisible(false)
+    }
     // note that the example uses javascript object for styles, though class + stylesheets may be better.
     return (
         <MyView>
             <MyText> Device List Screen </MyText>
-            <DeviceEditModal visible={modalVisible} data={selectedItem} onDismiss={() => setModalVisible(false)} />
+            <DeviceEditModal visible={modalVisible} data={selectedItem} onDismiss={handleEditDismiss} />
             <FlatList data={props.devices} renderItem={renderListItem} />
             <Button onPress={() => navigation.navigate('Logout')} title="Navigate to logout screen" />
+            {/* <FloatingAddButton /> */}
         </MyView>
     )
 }
@@ -48,6 +55,6 @@ const mapStateToProps = state => {
 }
 // Object is shorthand for a map function
 const mapDispatchToProps = {
-    addDevice, removeDevice
+    addDevice, removeDevice, setDeviceName
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DeviceListScreen)

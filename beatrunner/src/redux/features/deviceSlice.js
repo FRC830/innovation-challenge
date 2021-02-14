@@ -27,6 +27,27 @@ const deviceSlice = createSlice({
                 list: [...state.list, action.payload]
             }
             // Should return state by default
+            return state
+        },
+        setDeviceName(state, action) {
+            const { id, name } = action.payload
+            if (!contains(state.list, id)) {
+                throw new Exception(`Cannot set name of device ${id}, does not exist.`)
+            }
+            // https://stackoverflow.com/questions/35628774/how-to-update-single-value-inside-specific-array-item-in-redux
+            state = {
+                ...state,
+                list: state.list.map((item) => {
+                    if (item.id === id && item.name !== name) {
+                        return {
+                            ...item,
+                            name: name,
+                        }
+                    }
+                    return item
+                })
+            }
+            return state
         },
         removeDevice(state, action) {
             const IDToRemove = action.payload.id
@@ -38,6 +59,7 @@ const deviceSlice = createSlice({
                 ...state,
                 list: state.list.filter(item => item.id != IDToRemove)
             }
+            return state
 
         },
     }
@@ -46,6 +68,7 @@ const deviceSlice = createSlice({
 export const {
     addDevice,
     removeDevice,
+    setDeviceName,
 } = deviceSlice.actions
 
 export default deviceSlice.reducer
