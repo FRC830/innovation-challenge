@@ -43,7 +43,7 @@ function DeviceListScreen({navigation, ...props}) {
             <DeviceEditModal visible={modalVisible} data={selectedItem} onDismiss={handleEditDismiss} />
             <FlatList data={props.devices} renderItem={renderListItem} />
             <Button onPress={() => navigation.navigate('Logout')} title="Navigate to logout screen" />
-            {/* <FloatingAddButton /> */}
+            <FloatingAddButton />
         </MyView>
     )
 }
