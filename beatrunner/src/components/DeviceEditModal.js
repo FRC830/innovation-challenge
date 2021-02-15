@@ -16,6 +16,11 @@ display: flex;
 justify-content: center;
 align-items: center;
 `
+const EditButton = styled.TouchableOpacity`
+    background: #0B9ED9;
+    align-items: center;
+    justify-content: center;
+`
 function DeviceEditModal({visible, onDismiss, data}) {
     const [text, setText] = useState(data.name)
     return (
@@ -23,12 +28,12 @@ function DeviceEditModal({visible, onDismiss, data}) {
             <CenterView>
                 <ModalView>
                     <TextInput value={text} onChangeText={text => setText(text)} />
-                    <TouchableOpacity onPress={() => onDismiss(null)}>
+                    <EditButton onPress={() => onDismiss(null)}>
                         <Text>Cancel</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => onDismiss(text)}>
+                    </EditButton>
+                    <EditButton onPress={() => onDismiss(text)}>
                         <Text>Save</Text>
-                    </TouchableOpacity>
+                    </EditButton>
                 </ModalView>
             </CenterView>
         </Modal>
