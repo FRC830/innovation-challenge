@@ -1,13 +1,15 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { Modal, View, Text } from 'react-native'
 function DeviceConnectModal({visible, selectedDevice}) {
-    selectedDevice.connect().then((device) => {
-        console.debug('Connecting to device...')
-        console.debug(device)
-    }).catch((error) => {
-        console.error(error)
-        throw error
-    })
+    if (selectedDevice != undefined) {
+        selectedDevice.connect().then((device) => {
+            console.debug('Connecting to device...')
+            console.debug(device)
+        }).catch((error) => {
+            console.error(error)
+            throw error
+        })
+    }
     return (
         <Modal transparent={true} visible={visible} onRequestClose={() => onDismiss(null)}>
             <View>

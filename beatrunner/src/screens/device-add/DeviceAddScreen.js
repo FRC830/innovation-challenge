@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { BleManager } from 'react-native-ble-plx'
 import styled from 'styled-components/native'
-
+import DeviceConnectModal from '_components/DeviceConnectModal'
 const ScanButton = styled.TouchableOpacity`
-    background: blue;
+    background: lightblue;
     border-radius: 10px;
 `
 function DeviceAddScreen(props) {
-    const [bleStackLaunched, setBleStackLaunched] = useState(false)
+    const [bleStackLaunched, setBleStackLaunched] = useState(true)
+    console.log(bleStackLaunched)
     const [modalVisible, setModalVisible] = useState(false)
     const [selectedDevice, setSelectedDevice] = useState(null)
     const manager = new BleManager()
@@ -16,7 +17,7 @@ function DeviceAddScreen(props) {
     const appendDeviceList = (device) => {
         setDeviceList([...deviceList, device])
     }
-    // https://polidea.github.io/react-native-ble-plx/
+    // https://polidea.github.io/react-native-ble-plx/ FOR IOS -- do not delete yet...
     const subscription = manager.onStateChange((state) => {
         console.debug(`Received state: ${state}`)
         if (state === 'PoweredOn') {
@@ -37,7 +38,7 @@ function DeviceAddScreen(props) {
     function renderDevice({item}) {
         return (
             <View>
-                <TouchableOpacity onclick={attemptConnect(item)}>
+                <TouchableOpacity onPress={attemptConnect(item)}>
                     <Text> { item.name } </Text>
                 </TouchableOpacity>
             </View>
@@ -50,22 +51,22 @@ function DeviceAddScreen(props) {
 
     }
 
-    if (bleStackLaunched) {
-        return (
+    return (bleStackLaunched) ?
+        (
             <View>
-                <DeviceConnectModal visible={modalVisible} data={selectedItem} onDismiss={handleEditDismiss} />
-                <ScanButton onclick={startScan}> <Text> Restart Scan </Text></ScanButton>
-                <Text> Add Device </Text>
-                <FlatList data={deviceList} renderItem={renderDevice}> </FlatList>
+                <DeviceConnectModal visible={modalVisible} data={selectedDevice} />
+                <ScanButton onPress={startScan}>
+                    <Text> Restart Scan </Text>
+                </ScanButton>
+                <Text> Devices Found: </Text>
+                <FlatList data={deviceList} renderItem={renderDevice} />
+            </View>
+        ) :
+        (
+            <View>
+                <Text> Loading BLE Stack... "{String(bleStackLaunched)}" </Text>
             </View>
         )
-    } else {
-        return (
-            <View>
-                <Text> Loading BLE Stack </Text>
-            </View>
-        )
-    }
 }
 
 export default DeviceAddScreen

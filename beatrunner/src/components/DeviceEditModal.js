@@ -4,7 +4,7 @@ import { Modal, Text, TouchableOpacity, TextInput } from 'react-native'
 const ModalView = styled.View`
 margin: 20px;
 display: flex;
-background: blue;
+background: lightblue;
 border-radius: 20px;
 padding: 35px;
 align-items: center;
@@ -22,7 +22,7 @@ const EditButton = styled.TouchableOpacity`
     justify-content: center;
 `
 function DeviceEditModal({visible, onDismiss, data}) {
-    const [text, setText] = useState(data.name)
+    const [text, setText] = useState(() => data.name)
     return (
         <Modal transparent={true} visible={visible} onRequestClose={() => onDismiss(null)}>
             <CenterView>

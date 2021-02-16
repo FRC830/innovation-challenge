@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import LogoutScreen from '_screens/logout/LogoutScreen'
 import LoginScreen from '_screens/login/LoginScreen'
 import DeviceListScreen from '_screens/device-list/DeviceListScreen'
+import DeviceAddScreen from '_screens/device-add/DeviceAddScreen'
 
 const Stack = createStackNavigator();
 
@@ -12,6 +13,7 @@ function Navigator(props) {
         <>
             <Stack.Screen name="Logout" component={LogoutScreen} />
             <Stack.Screen name="DeviceList" component={DeviceListScreen} />
+            <Stack.Screen name="DeviceAdd" component={DeviceAddScreen} />
         </>
     )
     const currentScreenStack = (props.authentication.refreshToken == null) ?
