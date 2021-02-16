@@ -17,10 +17,15 @@ justify-content: center;
 align-items: center;
 `
 const EditButton = styled.TouchableOpacity`
-    background: #0B9ED9;
-    align-items: center;
-    justify-content: center;
+margin: 15px 0px 15px;
+border-radius: 50px;
+align-items: center;
+justify-content: center;
 `
+const EditButtonText = styled.Text`
+color: #0B9ED9;
+`
+
 function DeviceEditModal({visible, onDismiss, data}) {
     const [text, setText] = useState(data.name)
     return (
@@ -29,10 +34,10 @@ function DeviceEditModal({visible, onDismiss, data}) {
                 <ModalView>
                     <TextInput value={text} onChangeText={text => setText(text)} />
                     <EditButton onPress={() => onDismiss(null)}>
-                        <Text>Cancel</Text>
+                        <EditButtonText>Cancel</EditButtonText>
                     </EditButton>
                     <EditButton onPress={() => onDismiss(text)}>
-                        <Text>Save</Text>
+                        <EditButtonText>Save</EditButtonText>
                     </EditButton>
                 </ModalView>
             </CenterView>

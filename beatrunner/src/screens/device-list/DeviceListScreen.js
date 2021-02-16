@@ -6,6 +6,7 @@ import { connect } from "react-redux"
 import { addDevice, removeDevice, setDeviceName } from '_redux/features/deviceSlice'
 import DeviceListItem from '_components/DeviceListItem'
 import DeviceEditModal from '_components/DeviceEditModal'
+import FloatingAddButton from '_components/FloatingAddButton'
 const MyView = styled.View`
     padding-top: 22px;
     flex-grow: 1;
