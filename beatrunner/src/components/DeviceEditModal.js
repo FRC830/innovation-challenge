@@ -17,13 +17,14 @@ justify-content: center;
 align-items: center;
 `
 const EditButton = styled.TouchableOpacity`
+padding: 10px 30px;
 margin: 15px 0px 15px;
-border-radius: 50px;
+backgroundColor: #0B9ED9;
 align-items: center;
 justify-content: center;
 `
 const EditButtonText = styled.Text`
-color: #0B9ED9;
+color: #000000;
 `
 
 function DeviceEditModal({visible, onDismiss, data}) {

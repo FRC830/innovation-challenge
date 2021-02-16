@@ -14,8 +14,9 @@ const FloatingButton = styled.TouchableOpacity`
     elevation: 999;
     bottom: 10px;
     right: 10px;
+    align-items: center;
+    justify-content: center;
 `
-
 
 function FloatingAddButton(props) {
     const navigation = useNavigation()
