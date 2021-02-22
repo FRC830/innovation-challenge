@@ -15,6 +15,8 @@
     "@react-navigation/native": "^5.9.2",
     "@react-navigation/stack": "^5.14.2",
     "@reduxjs/toolkit": "^1.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.1",
     "react": "16.13.1",
     "react-native": "^0.63.4",
     "react-native-app-auth": "^6.0.2",
@@ -27,6 +29,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
+    "spotify-web-api-node": "^5.0.2",
     "styled-components": "^5.2.1"
   },
   "devDependencies": {
