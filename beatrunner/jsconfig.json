@@ -1,6 +1,15 @@
 // https://code.visualstudio.com/docs/languages/jsconfig
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonJS",
+    "paths": {
+      "_components/*": ["./src/components/*"],
+      "_assets/*": ["./src/assets/*"],
+      "_screens/*": ["./src/screens/*"],
+      "_redux/*": ["./src/redux/*"],
+      "_utils/*": ["./src/utils/*"],
+    }
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "android", "ios"]
 }
