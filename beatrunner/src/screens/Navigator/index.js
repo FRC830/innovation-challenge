@@ -5,7 +5,6 @@ import LogoutScreen from '_screens/Logout'
 import LoginScreen from '_screens/Login'
 import DeviceListScreen from '_screens/DeviceList'
 import DeviceAddScreen from '_screens/DeviceAdd'
-
 const Stack = createStackNavigator()
 
 function Navigator(props) {

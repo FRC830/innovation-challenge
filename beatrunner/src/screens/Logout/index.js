@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import {
   setAccessToken,
   setRefreshToken,
-} from '../login/node_modules/_redux/features/authenticationSlice'
+} from '_redux/features/authenticationSlice'
 
 import { View, MyButton, Text } from './styles'
 
