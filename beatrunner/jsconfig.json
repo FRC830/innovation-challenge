@@ -1,14 +1,6 @@
-// Editor autocompletion
-
+// https://code.visualstudio.com/docs/languages/jsconfig
 {
   "compilerOptions": {
-    "baseUrl": "src",
-    "paths": {
-      "_assets": ["assets/*"],
-      "_components": ["components/*"],
-      "_screens": ["screens/*"],
-      "_utils": ["utils/*"],
-      "_redux": ["redux/*"]
-    }
-  }
+  },
+  "exclude": ["node_modules"]
 }

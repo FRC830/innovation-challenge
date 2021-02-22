@@ -5,5 +5,6 @@ module.exports = {
   trailingComma: 'all',
   semi: false,
   tabWidth: 2,
-  quoteProps: 'consistent'
-};
+  quoteProps: 'consistent',
+  endOfLine: 'auto',
+}

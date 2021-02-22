@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Modal, TextInput } from 'react-native'
-import { CenterView, EditButton, EditButtonText, TextInput } from './styles'
-
+import { CenterView, EditButton, EditButtonText, ModalView } from './styles'
 function DeviceEditModal({ visible, onDismiss, data }) {
   const [text, setText] = useState(() => data.name)
   return (
@@ -11,7 +10,10 @@ function DeviceEditModal({ visible, onDismiss, data }) {
       onRequestClose={() => onDismiss(null)}>
       <CenterView>
         <ModalView>
-          <TextInput value={text} onChangeText={(text) => setText(text)} />
+          <TextInput
+            value={text}
+            onChangeText={(newText) => setText(newText)}
+          />
           <EditButton onPress={() => onDismiss(null)}>
             <EditButtonText>Cancel</EditButtonText>
           </EditButton>
