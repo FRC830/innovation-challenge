@@ -1,0 +1,3 @@
+[submodule "swap-server"]
+	path = swap-server
+	url = https://github.com/FRC830/innovation-challenge-swap-server
