@@ -16,6 +16,7 @@ class AuthenticationHandler {
         'user-library-read',
         'user-library-modify',
         'user-top-read',
+        'app-remote-control',
       ],
       serviceConfiguration: {
         authorizationEndpoint: 'https://accounts.spotify.com/authorize',

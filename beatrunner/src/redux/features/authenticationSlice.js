@@ -12,6 +12,7 @@ const authenticationSlice = createSlice({
       const { accessToken, accessExpiration } = action.payload
       state.accessToken = accessToken
       state.accessExpiration = accessExpiration
+      return state
     },
     setRefreshToken(state, action) {
       state.refreshToken = action.payload.refreshToken
