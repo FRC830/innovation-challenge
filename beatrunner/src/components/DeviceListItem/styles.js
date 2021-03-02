@@ -20,3 +20,4 @@ export const IconButton = styled.TouchableOpacity`
 export const MyIcon = styled(Icon)`
   font-size: 25px;
 `
+export const TextButtonWrapper = styled.TouchableOpacity``

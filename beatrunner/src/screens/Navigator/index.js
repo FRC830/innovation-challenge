@@ -5,14 +5,16 @@ import LogoutScreen from '_screens/Logout'
 import LoginScreen from '_screens/Login'
 import DeviceListScreen from '_screens/DeviceList'
 import DeviceAddScreen from '_screens/DeviceAdd'
+import PlaylistListScreen from '_screens/PlaylistList'
 const Stack = createStackNavigator()
 
 function Navigator(props) {
   const mainApplicationStack = (
     <>
-      <Stack.Screen name="Logout" component={LogoutScreen} />{' '}
-      <Stack.Screen name="DeviceList" component={DeviceListScreen} />{' '}
-      <Stack.Screen name="DeviceAdd" component={DeviceAddScreen} />{' '}
+      <Stack.Screen name="Logout" component={LogoutScreen} />
+      <Stack.Screen name="DeviceList" component={DeviceListScreen} />
+      <Stack.Screen name="DeviceAdd" component={DeviceAddScreen} />
+      <Stack.Screen name="PlaylistList" component={PlaylistListScreen} />
     </>
   )
   const currentScreenStack =
@@ -21,7 +23,7 @@ function Navigator(props) {
     ) : (
       mainApplicationStack
     )
-  return <Stack.Navigator> {currentScreenStack} </Stack.Navigator>
+  return <Stack.Navigator>{currentScreenStack}</Stack.Navigator>
 }
 const mapStateToProps = (state) => {
   return {

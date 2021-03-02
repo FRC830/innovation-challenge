@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import authenticationSlice from '_screens'
-import deviceSlice from '_screens'
+import authenticationSlice from '_redux/features/authenticationSlice'
+import deviceSlice from '_redux/features/deviceSlice'
 
 import { persistReducer } from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage'

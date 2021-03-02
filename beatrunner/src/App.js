@@ -6,7 +6,7 @@
  */
 
 import React from 'react'
-import Navigator from '_screens/navigator/Navigator'
+import Navigator from '_screens/Navigator/index'
 
 // redux
 import { PersistGate } from 'redux-persist/es/integration/react'

@@ -18,7 +18,7 @@ export const CenterView = styled.View`
 export const EditButton = styled.TouchableOpacity`
   padding: 10px 30px;
   margin: 15px 0px 15px;
-  backgroundcolor: #0b9ed9;
+  background-color: #0b9ed9;
   align-items: center;
   justify-content: center;
 `

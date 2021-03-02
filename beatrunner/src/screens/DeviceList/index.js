@@ -17,13 +17,23 @@ function DeviceListScreen({ navigation, ...props }) {
   const [modalVisible, setModalVisible] = useState(false)
   let [selectedItem, setSelectedItem] = useState({})
   // renderItem has a lot of properties, including index, item, serparators,
+  const updateState = (data) => {
+    setModalVisible(true)
+    setSelectedItem(data)
+  }
+
+  const sendToPlaylist = () => {
+    navigation.navigate('PlaylistList') // TODO pass in device & connection logic
+  }
   function renderListItem({ item }) {
     console.log('Rendering', item)
-    const updateState = (data) => {
-      setModalVisible(true)
-      setSelectedItem(data)
-    }
-    return <DeviceListItem onEdit={updateState} data={item} />
+    return (
+      <DeviceListItem
+        onEdit={updateState}
+        onSelect={sendToPlaylist}
+        data={item}
+      />
+    )
   }
   function handleEditDismiss(value) {
     if (value !== null) {

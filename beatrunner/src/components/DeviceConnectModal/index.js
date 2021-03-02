@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, View, Text } from 'react-native'
 function DeviceConnectModal({ visible, selectedDevice }) {
-  if (selectedDevice != undefined) {
+  if (selectedDevice !== undefined) {
     selectedDevice
       .connect()
       .then((device) => {
