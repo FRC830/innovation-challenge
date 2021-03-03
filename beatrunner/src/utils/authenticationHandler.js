@@ -1,5 +1,5 @@
 import { authorize, refresh } from 'react-native-app-auth'
-
+import axios from 'axios'
 class AuthenticationHandler {
   constructor() {
     // By default this uses PKCE so it is fine to expose this information.
@@ -24,21 +24,35 @@ class AuthenticationHandler {
       },
     }
   }
-
+  // this somewhat is outside the scope of this, but whatever
+  async get(uri, accessToken, params = {}) {
+    console.debug('https://api.spotify.com/v1' + uri, `Bearer ${accessToken}`)
+    return axios
+      .get('https://api.spotify.com/v1' + uri, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params,
+      })
+      .catch((err) => {
+        console.debug(err)
+      })
+  }
   async onLogin() {
     try {
       return await authorize(this.spotifyAuthConfig)
     } catch (error) {
-      console.error(error)
+      console.error('Error authorizing...', error)
     }
   }
   async refreshLogin(refreshToken) {
     try {
+      console.debug(`Refreshing login with token ${refreshToken}`)
       return await refresh(this.spotifyAuthConfig, {
-        refreshToken: refreshToken,
+        refreshToken,
       })
     } catch (error) {
-      console.error(error)
+      console.error('Error refreshing login...', error)
     }
   }
 }

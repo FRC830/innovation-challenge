@@ -9,7 +9,8 @@ import AsyncStorage from '@react-native-community/async-storage'
 const authenticationFeatureConfig = {
   key: 'authentication',
   storage: AsyncStorage, // https://github.com/rt2zz/redux-persist
-  blacklist: ['accessToken', 'accessExpiration'], // Do not store this long term
+  // blacklist: ['accessToken', 'accessExpiration'], // Do not store this long term
+  // 3/2 Apparently causes bug to blacklist, so oh well
 }
 
 const deviceFeatureConfig = {
