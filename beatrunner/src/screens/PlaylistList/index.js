@@ -44,7 +44,7 @@ async function updateReduxWithValidAccessToken({
   }
   return accessToken
 }
-function PlaylistListScreen({ authentication, ...props }) {
+function PlaylistListScreen({ authentication, navigation, ...props }) {
   const [loading, setLoading] = useState(true)
   const [playlists, setPlaylists] = useState([])
   const [accessToken, setLocalAccessToken] = useState(null)
@@ -60,14 +60,24 @@ function PlaylistListScreen({ authentication, ...props }) {
     console.log('Passing', aToken)
     const response = await authHandler.get('/me/playlists', aToken)
     if (response) {
-      setPlaylists(response.data.items.map((r) => r.name))
+      setPlaylists(response.data.items)
     } else {
       console.debug(response)
     }
     console.log('playlists set!!!')
   }
+
+  const navigateCallback = (itemID) => {
+    navigation.navigate('PlaylistDetail', {
+      playlistID: itemID,
+    })
+  }
   function renderListItem({ item }) {
-    return <MyText> {item || 'NULL'} </MyText>
+    return (
+      <MyButton onPress={() => navigateCallback(item.id)}>
+        <MyText> {item.name || 'NULL'} </MyText>
+      </MyButton>
+    )
   }
   return loading ? (
     <MyText>Loading</MyText>

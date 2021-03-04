@@ -6,6 +6,7 @@ import LoginScreen from '_screens/Login'
 import DeviceListScreen from '_screens/DeviceList'
 import DeviceAddScreen from '_screens/DeviceAdd'
 import PlaylistListScreen from '_screens/PlaylistList'
+import PlaylistDetailScreen from '_screens/PlaylistDetail'
 const Stack = createStackNavigator()
 
 function Navigator(props) {
@@ -15,6 +16,7 @@ function Navigator(props) {
       <Stack.Screen name="DeviceList" component={DeviceListScreen} />
       <Stack.Screen name="DeviceAdd" component={DeviceAddScreen} />
       <Stack.Screen name="PlaylistList" component={PlaylistListScreen} />
+      <Stack.Screen name="PlaylistDetail" component={PlaylistDetailScreen} />
     </>
   )
   const currentScreenStack =
