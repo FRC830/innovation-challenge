@@ -36,6 +36,9 @@ class AuthenticationHandler {
       })
       .catch((err) => {
         console.debug(err)
+        if (err.response) {
+          console.warn(err.response.data)
+        }
       })
   }
   async onLogin() {

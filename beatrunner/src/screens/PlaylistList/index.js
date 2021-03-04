@@ -9,15 +9,16 @@ import {
 import { MyText, MyButton, MyList } from './styles'
 import authHandler from '_utils/authenticationHandler'
 
-import { remote } from 'react-native-spotify-remote'
+import { remote, auth } from 'react-native-spotify-remote'
 
 async function playSong(token) {
   try {
-    await remote.connectWithoutAuth(
-      authHandler.spotifyAuthConfig.clientId,
-      authHandler.spotifyAuthConfig.clientId,
-      authHandler.spotifyAuthConfig.redirectUrl,
-    )
+    await auth.authorize({
+      clientID: authHandler.spotifyAuthConfig.clientId,
+      redirectURL: authHandler.spotifyAuthConfig.redirectUrl,
+      skipAuthAccessToken: token, // this will just be returned in the android flow
+    })
+    await remote.connect(token)
     await remote.playUri('spotify:track:6IA8E2Q5ttcpbuahIejO74')
   } catch (error) {
     console.error(error)
@@ -45,28 +46,30 @@ async function updateReduxWithValidAccessToken({
 }
 function PlaylistListScreen({ authentication, ...props }) {
   const [loading, setLoading] = useState(true)
-  const [accessToken, setLocalAccessToken] = useState(null)
   const [playlists, setPlaylists] = useState([])
+  const [accessToken, setLocalAccessToken] = useState(null)
   useEffect(() => {
     setLoading(true)
     updateReduxWithValidAccessToken(authentication).then((token) => {
-      setLocalAccessToken(token)
       setLoading(false)
+      setLocalAccessToken(token)
     })
   }, [authentication])
 
   const getPlaylists = async (aToken) => {
     console.log('Passing', aToken)
-    const response = await authHandler
-      .get('/me/playlists', aToken)
-      .then((r) => r.data.items)
-    setPlaylists(response.map((r) => r.name))
+    const response = await authHandler.get('/me/playlists', aToken)
+    if (response) {
+      setPlaylists(response.data.items.map((r) => r.name))
+    } else {
+      console.debug(response)
+    }
     console.log('playlists set!!!')
   }
   function renderListItem({ item }) {
     return <MyText> {item || 'NULL'} </MyText>
   }
-  return loading && accessToken ? (
+  return loading ? (
     <MyText>Loading</MyText>
   ) : (
     <View>
