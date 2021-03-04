@@ -26,7 +26,6 @@ class AuthenticationHandler {
   }
   // this somewhat is outside the scope of this, but whatever
   async get(uri, accessToken, params = {}) {
-    console.debug('https://api.spotify.com/v1' + uri, `Bearer ${accessToken}`)
     return axios
       .get('https://api.spotify.com/v1' + uri, {
         headers: {
@@ -35,7 +34,7 @@ class AuthenticationHandler {
         params,
       })
       .catch((err) => {
-        console.debug(err)
+        console.warn(err)
         if (err.response) {
           console.warn(err.response.data)
         }

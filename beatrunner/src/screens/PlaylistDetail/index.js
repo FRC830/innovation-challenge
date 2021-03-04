@@ -8,34 +8,66 @@ import authHandler from '_utils/authenticationHandler'
 function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   const [songs, setSongs] = useState([])
   const [loading, setLoading] = useState(true)
-  const [accessToken, setLocalAccessToken] = useState(null)
+  const [reachedEnd, setReachedEnd] = useState(false)
+  // const [accessToken, setLocalAccessToken] = useState(null)
+  const [page, setPage] = useState(0)
   const { playlistID } = route.params
-  console.debug('playlistID', playlistID)
-  useEffect(() => {
-    setLoading(true)
-    updateReduxWithValidAccessToken(authentication).then((token) => {
-      getSongsOfPlaylist(token, playlistID)
-      setLocalAccessToken(token)
-      setLoading(false)
-    })
-  }, [authentication, playlistID])
+
   const pop = () => navigation.dispatch(StackActions.pop(1))
 
-  const getSongsOfPlaylist = async (aToken, aPlaylist) => {
-    console.log('Passing', aToken, aPlaylist)
-    const response = await authHandler.get(`/playlists/${aPlaylist}`, aToken)
+  const getSongsOfPlaylist = async (aToken, aPlaylist, aPage) => {
+    console.log('getSongsOfPlaylist', aPage)
+    const response = await authHandler.get(`/playlists/${aPlaylist}`, aToken, {
+      offset: 100 * aPage,
+    })
     if (response) {
-      setSongs(response.data.tracks.items)
+      console.log(response.data.tracks.items.length, 'new songs')
+      console.log(response.data.tracks.total, 'Total songs')
+      setSongs([...songs, ...response.data.tracks.items])
+      if (
+        songs.length + response.data.tracks.items.length >=
+        response.data.tracks.total
+      ) {
+        setReachedEnd(true)
+      }
     } else {
+      console.debug('MAJOR ERROR!@!!!')
       console.debug(response)
     }
-    console.log('playlists set!!!')
   }
 
   function renderListItem({ item }) {
     return <MyText>{item.track.name || 'NULL'}</MyText>
   }
-  return loading ? (
+
+  useEffect(() => {
+    console.log('Loading state set to', loading)
+  }, [loading])
+  useEffect(() => {
+    console.log('page state set to', page)
+    setLoading(true)
+    updateReduxWithValidAccessToken(authentication).then((token) =>
+      getSongsOfPlaylist(token, playlistID, page),
+    )
+    setLoading(false)
+  }, [page])
+  useEffect(() => {
+    console.log('song length now', songs.length)
+  }, [songs])
+  async function loadMore() {
+    console.log('loadMore')
+    if (!loading && !reachedEnd) {
+      setPage(page + 1)
+    }
+  }
+
+  function renderFooter() {
+    if (!loading) {
+      return <MyText> END OF DATA </MyText>
+    }
+    return <MyText> Loading more... </MyText>
+  }
+  return loading && page === 0 ? (
     <MyText> Loading... </MyText>
   ) : (
     <MyView>
@@ -46,7 +78,10 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
       <MySongList
         data={songs}
         renderItem={renderListItem}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
+        ListFooterComponent={renderFooter}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.25} // They must scroll 75% through data to load
       />
     </MyView>
   )
@@ -57,8 +92,7 @@ async function updateReduxWithValidAccessToken({
   accessExpiration,
   refreshToken,
 }) {
-  console.log('Current accessToken is:', accessToken)
-  if (accessToken === null || new Date() < accessExpiration) {
+  if (accessToken === null || new Date() > new Date(accessExpiration)) {
     console.log('Access Token is Invalid, Refreshing...')
     console.log('refreshToken=', refreshToken)
     const response = await authHandler.refreshLogin(refreshToken)

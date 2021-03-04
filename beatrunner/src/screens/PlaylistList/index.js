@@ -27,7 +27,8 @@ async function updateReduxWithValidAccessToken({
   refreshToken,
 }) {
   console.log('Current accessToken is:', accessToken)
-  if (accessToken === null || new Date() < accessExpiration) {
+  console.log(new Date(), accessExpiration)
+  if (accessToken === null || new Date() > new Date(accessExpiration)) {
     console.log('Access Token is Invalid, Refreshing...')
     console.log('refreshToken=', refreshToken)
     const response = await authHandler.refreshLogin(refreshToken)
