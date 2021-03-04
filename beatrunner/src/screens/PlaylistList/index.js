@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { View } from 'react-native'
 import { connect } from 'react-redux'
 import {
   setAccessToken,
   setRefreshToken,
 } from '_redux/features/authenticationSlice'
 
-import { MyText, MyButton, MyList } from './styles'
+import { MyText, MyButton, MyList, MyView } from './styles'
 import authHandler from '_utils/authenticationHandler'
 
 import { remote, auth } from 'react-native-spotify-remote'
@@ -82,8 +81,8 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
   return loading ? (
     <MyText>Loading</MyText>
   ) : (
-    <View>
-      <MyText>TOKEN</MyText>
+    <MyView>
+      <MyText>HELLO</MyText>
       <MyButton onPress={() => playSong(accessToken)}>
         <MyText>Play a song using remote</MyText>
       </MyButton>
@@ -91,7 +90,7 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
         <MyText>Get playlists</MyText>
       </MyButton>
       <MyList data={playlists} renderItem={renderListItem} />
-    </View>
+    </MyView>
   )
 }
 const mapStateToProps = (state) => {
