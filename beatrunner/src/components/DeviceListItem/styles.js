@@ -14,10 +14,4 @@ export const ListItemWrapper = styled.View`
   padding: 10px;
   background: lightgray;
 `
-export const IconButton = styled.TouchableOpacity`
-  margin-right: 5px;
-`
-export const MyIcon = styled(Icon)`
-  font-size: 25px;
-`
 export const TextButtonWrapper = styled.TouchableOpacity``

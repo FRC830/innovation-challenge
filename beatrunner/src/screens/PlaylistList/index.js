@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import { setAccessToken } from '_redux/features/authenticationSlice'
+import {
+  setAccessToken,
+  setRefreshToken,
+} from '_redux/features/authenticationSlice'
 
 import { MyText, MyButton, MyList, MyView } from './styles'
 import authHandler from '_utils/authenticationHandler'
 import { remote, auth } from 'react-native-spotify-remote'
-
+import PressableIcon from '_components/PressableIcon'
+import PlaylistItem from '_components/PlaylistItem'
 async function playSong(token) {
   try {
     await auth.authorize({
@@ -36,6 +40,9 @@ async function updateReduxWithValidAccessToken({
     setAccessToken({
       accessToken,
       accessExpiration: response.accessTokenExpirationDate,
+    })
+    setRefreshToken({
+      refreshToken: response.refreshToken,
     })
   }
   return accessToken
@@ -72,9 +79,11 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
   }
   function renderListItem({ item }) {
     return (
-      <MyButton onPress={() => navigateCallback(item.id)}>
-        <MyText> {item.name || 'NULL'} </MyText>
-      </MyButton>
+      <PlaylistItem
+        data={item}
+        onInfo={() => navigateCallback(item.id)}
+        onSelect={() => console.debug('Selected')}
+      />
     )
   }
   return loading ? (
@@ -99,5 +108,6 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
   setAccessToken,
+  setRefreshToken,
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistListScreen)

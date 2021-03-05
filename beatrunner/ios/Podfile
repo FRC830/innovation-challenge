@@ -13,6 +13,8 @@ target 'beatrunner' do
 
   pod 'react-native-ble-plx', :path => '../node_modules/react-native-ble-plx'
 
+  pod 'ReactNativeAudioToolkit', :path => '../node_modules/@react-native-community/audio-toolkit'
+
   target 'beatrunnerTests' do
     inherit! :complete
     # Pods for testing

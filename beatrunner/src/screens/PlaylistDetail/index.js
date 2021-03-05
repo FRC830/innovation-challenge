@@ -1,27 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import {
-  MyView,
+  ContainerView,
   MyText,
   MyButton,
   MySongList,
   ListItemContainer,
+  OverlaidSelectButton,
   MyImage,
+  SeparatorLine,
 } from './styles'
+
+import PressableIcon from '_components/PressableIcon'
+import SongListItem from '_components/SongListItem'
+import { ActivityIndicator } from 'react-native'
 import { StackActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
-import { setAccessToken } from '_redux/features/authenticationSlice'
+import {
+  setAccessToken,
+  setRefreshToken,
+} from '_redux/features/authenticationSlice'
 import authHandler from '_utils/authenticationHandler'
-import { max } from 'react-native-reanimated'
+import TrackPlayer from 'react-native-track-player'
 
 function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   const [songs, setSongs] = useState([])
   const [loading, setLoading] = useState(true)
   const [songsToFetch, setSongsToFetch] = useState(100)
+  let currentlyPlaying = null
   // const [accessToken, setLocalAccessToken] = useState(null)
   const [page, setPage] = useState(0)
   const { playlistID } = route.params
   const pop = () => navigation.dispatch(StackActions.pop(1))
-
+  useEffect(() => {
+    setLoading(true)
+    TrackPlayer.setupPlayer().then(() => {
+      console.debug('Player Initialized.')
+    })
+    setLoading(false)
+  })
   const getSongsOfPlaylist = async (aToken, aPlaylist, aPage, aLimit) => {
     console.log('getSongsOfPlaylist', aPage)
     const response = await authHandler.get(
@@ -47,14 +63,22 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
       console.debug(response)
     }
   }
-
+  async function onTap(song) {
+    if (song !== null) {
+      if (currentlyPlaying !== song) {
+        await TrackPlayer.reset()
+        await TrackPlayer.add({
+          url: song,
+        })
+      }
+      await TrackPlayer.play()
+      currentlyPlaying = song
+    } else {
+      await TrackPlayer.pause()
+    }
+  }
   function renderListItem({ item }) {
-    return (
-      <ListItemContainer>
-        <MyImage source={{ uri: item.track.album.images[2].url }} />
-        <MyText>{item.track.name || 'NULL'}</MyText>
-      </ListItemContainer>
-    )
+    return <SongListItem data={item} onTap={onTap} />
   }
   useEffect(() => {
     console.log('Songs to fetch set to', songsToFetch)
@@ -84,12 +108,16 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
     if (!loading) {
       return <MyText> END OF DATA </MyText>
     }
-    return <MyText> Loading more... </MyText>
+    return <ActivityIndicator animating />
+  }
+
+  function renderSeparator() {
+    return <SeparatorLine />
   }
   return loading && page === 0 ? (
     <MyText> Loading... </MyText>
   ) : (
-    <MyView>
+    <ContainerView>
       <MyText> PlaylistID: {playlistID} </MyText>
       <MyButton onPress={pop}>
         <MyText>Go back</MyText>
@@ -98,11 +126,16 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
         data={songs}
         renderItem={renderListItem}
         keyExtractor={(_, index) => index.toString()}
+        ItemSeparatorComponent={renderSeparator}
         ListFooterComponent={renderFooter}
         onEndReached={loadMore}
-        onEndReachedThreshold={0.25} // They must scroll 75% through data to load
+        onEndReachedThreshold={0.1} // They must scroll 75% through data to load
       />
-    </MyView>
+      <OverlaidSelectButton
+        onPress={() => navigation.navigate('PlaylistSettings')}>
+        <MyText> Select </MyText>
+      </OverlaidSelectButton>
+    </ContainerView>
   )
 }
 
@@ -120,6 +153,9 @@ async function updateReduxWithValidAccessToken({
       accessToken,
       accessExpiration: response.accessTokenExpirationDate,
     })
+    setRefreshToken({
+      refreshToken: response.refreshToken,
+    })
   }
   return accessToken
 }
@@ -132,6 +168,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
   setAccessToken,
+  setRefreshToken,
 }
 export default connect(
   mapStateToProps,

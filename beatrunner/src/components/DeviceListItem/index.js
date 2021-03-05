@@ -3,14 +3,8 @@ import React from 'react'
 import { Alert } from 'react-native'
 // https://stackoverflow.com/questions/39282253/how-can-i-alias-a-default-import-in-javascript
 
-import {
-  MyText,
-  IconButton,
-  MyIcon,
-  ListItemWrapper,
-  TextButtonWrapper,
-} from './styles'
-
+import { MyText, ListItemWrapper, TextButtonWrapper } from './styles'
+import PressableIcon from '_components/PressableIcon'
 function DeviceListItem({ onEdit, onSelect, data }) {
   return (
     <ListItemWrapper>
@@ -19,12 +13,8 @@ function DeviceListItem({ onEdit, onSelect, data }) {
           {data.name} - {data.id}
         </MyText>
       </TextButtonWrapper>
-      <IconButton onPress={() => onEdit(data)}>
-        <MyIcon name={'pen'} />
-      </IconButton>
-      <IconButton onPress={() => Alert.alert('clicked 2')}>
-        <MyIcon name={'trash'} />
-      </IconButton>
+      <PressableIcon onPress={() => onEdit(data)} name={'pen'} />
+      <PressableIcon onPress={() => Alert.alert('clicked 2')} name={'trash'} />
     </ListItemWrapper>
   )
 }
