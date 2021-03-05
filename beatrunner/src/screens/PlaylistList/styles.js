@@ -9,5 +9,6 @@ export const MyButton = styled.TouchableOpacity`
 export const MyList = styled.FlatList``
 
 export const MyView = styled.View`
-    background: #233059;
-    height: 100%`
+  background: #233059;
+  height: 100%;
+`

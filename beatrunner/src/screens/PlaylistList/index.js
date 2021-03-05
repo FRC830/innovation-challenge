@@ -54,7 +54,9 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
 
   const getPlaylists = async (aToken) => {
     console.log('Passing', aToken)
-    const response = await authHandler.get('/me/playlists', aToken)
+    const response = await authHandler.get('/me/playlists', aToken, {
+      limit: 50,
+    })
     if (response) {
       setPlaylists(response.data.items)
     } else {

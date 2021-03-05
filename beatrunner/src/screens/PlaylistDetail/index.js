@@ -1,35 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import { MyView, MyText, MyButton, MySongList } from './styles'
+import {
+  MyView,
+  MyText,
+  MyButton,
+  MySongList,
+  ListItemContainer,
+  MyImage,
+} from './styles'
 import { StackActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import { setAccessToken } from '_redux/features/authenticationSlice'
 import authHandler from '_utils/authenticationHandler'
+import { max } from 'react-native-reanimated'
 
 function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   const [songs, setSongs] = useState([])
   const [loading, setLoading] = useState(true)
-  const [reachedEnd, setReachedEnd] = useState(false)
+  const [songsToFetch, setSongsToFetch] = useState(100)
   // const [accessToken, setLocalAccessToken] = useState(null)
   const [page, setPage] = useState(0)
   const { playlistID } = route.params
-
   const pop = () => navigation.dispatch(StackActions.pop(1))
 
-  const getSongsOfPlaylist = async (aToken, aPlaylist, aPage) => {
+  const getSongsOfPlaylist = async (aToken, aPlaylist, aPage, aLimit) => {
     console.log('getSongsOfPlaylist', aPage)
-    const response = await authHandler.get(`/playlists/${aPlaylist}`, aToken, {
-      offset: 100 * aPage,
-    })
+    const response = await authHandler.get(
+      `/playlists/${aPlaylist}/tracks`,
+      aToken,
+      {
+        offset: 100 * aPage,
+        limit: aLimit,
+        fields:
+          'total,items(track(preview_url, id, name, duration_ms, artists, album(!available_markets)))',
+      },
+    )
     if (response) {
-      console.log(response.data.tracks.items.length, 'new songs')
-      console.log(response.data.tracks.total, 'Total songs')
-      setSongs([...songs, ...response.data.tracks.items])
-      if (
-        songs.length + response.data.tracks.items.length >=
-        response.data.tracks.total
-      ) {
-        setReachedEnd(true)
-      }
+      console.log(response.data)
+      console.log(response.data.items.length, 'new songs')
+      console.log(response.data.total, 'Total songs')
+      const remainingSongs =
+        response.data.total - songs.length - response.data.items.length
+      setSongsToFetch(Math.min(100, remainingSongs))
+      setSongs([...songs, ...response.data.items])
     } else {
       console.debug('MAJOR ERROR!@!!!')
       console.debug(response)
@@ -37,26 +49,33 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   }
 
   function renderListItem({ item }) {
-    return <MyText>{item.track.name || 'NULL'}</MyText>
+    return (
+      <ListItemContainer>
+        <MyImage source={{ uri: item.track.album.images[2].url }} />
+        <MyText>{item.track.name || 'NULL'}</MyText>
+      </ListItemContainer>
+    )
   }
-
+  useEffect(() => {
+    console.log('Songs to fetch set to', songsToFetch)
+  }, [songsToFetch])
   useEffect(() => {
     console.log('Loading state set to', loading)
   }, [loading])
   useEffect(() => {
     console.log('page state set to', page)
     setLoading(true)
-    updateReduxWithValidAccessToken(authentication).then((token) =>
-      getSongsOfPlaylist(token, playlistID, page),
-    )
-    setLoading(false)
+    updateReduxWithValidAccessToken(authentication).then((token) => {
+      getSongsOfPlaylist(token, playlistID, page)
+      setLoading(false)
+    })
   }, [page])
   useEffect(() => {
     console.log('song length now', songs.length)
   }, [songs])
   async function loadMore() {
     console.log('loadMore')
-    if (!loading && !reachedEnd) {
+    if (!loading && songsToFetch > 1) {
       setPage(page + 1)
     }
   }
