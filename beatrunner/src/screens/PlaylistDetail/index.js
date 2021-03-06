@@ -87,12 +87,13 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
     console.log('Loading state set to', loading)
   }, [loading])
   useEffect(() => {
-    console.log('page state set to', page)
+    console.log('Loading page #', page)
     setLoading(true)
-    updateReduxWithValidAccessToken(authentication).then((token) => {
-      getSongsOfPlaylist(token, playlistID, page)
-      setLoading(false)
-    })
+    updateReduxWithValidAccessToken(authentication)
+      .then((token) => getSongsOfPlaylist(token, playlistID, page))
+      .then(() => {
+        setLoading(false)
+      })
   }, [page])
   useEffect(() => {
     console.log('song length now', songs.length)
@@ -129,7 +130,7 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
         ItemSeparatorComponent={renderSeparator}
         ListFooterComponent={renderFooter}
         onEndReached={loadMore}
-        onEndReachedThreshold={0.1} // They must scroll 75% through data to load
+        onEndReachedThreshold={0.1} // They must scroll 90% through data to load
       />
       <OverlaidSelectButton
         onPress={() => navigation.navigate('PlaylistSettings')}>
