@@ -36,6 +36,7 @@ async function updateReduxWithValidAccessToken({
     console.log('Access Token is Invalid, Refreshing...')
     console.log('refreshToken=', refreshToken)
     const response = await authHandler.refreshLogin(refreshToken)
+    console.warn('Response', response)
     accessToken = response.accessToken
     setAccessToken({
       accessToken,

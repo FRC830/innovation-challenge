@@ -25,19 +25,12 @@ import TrackPlayer from 'react-native-track-player'
 function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   const [songs, setSongs] = useState([])
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(0)
   const [songsToFetch, setSongsToFetch] = useState(100)
   let currentlyPlaying = null
-  // const [accessToken, setLocalAccessToken] = useState(null)
-  const [page, setPage] = useState(0)
   const { playlistID } = route.params
   const pop = () => navigation.dispatch(StackActions.pop(1))
-  useEffect(() => {
-    setLoading(true)
-    TrackPlayer.setupPlayer().then(() => {
-      console.debug('Player Initialized.')
-    })
-    setLoading(false)
-  })
+
   const getSongsOfPlaylist = async (aToken, aPlaylist, aPage, aLimit) => {
     console.log('getSongsOfPlaylist', aPage)
     const response = await authHandler.get(
@@ -51,16 +44,18 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
       },
     )
     if (response) {
-      console.log(response.data)
       console.log(response.data.items.length, 'new songs')
       console.log(response.data.total, 'Total songs')
-      const remainingSongs =
+      let remainingSongs =
         response.data.total - songs.length - response.data.items.length
+      if (remainingSongs >= 0) {
+        setSongs([...songs, ...response.data.items])
+      } else {
+        remainingSongs = 0
+      }
       setSongsToFetch(Math.min(100, remainingSongs))
-      setSongs([...songs, ...response.data.items])
     } else {
-      console.debug('MAJOR ERROR!@!!!')
-      console.debug(response)
+      console.error('There was a problem fetching data')
     }
   }
   async function onTap(song) {
@@ -77,28 +72,41 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
       await TrackPlayer.pause()
     }
   }
-  function renderListItem({ item }) {
-    return <SongListItem data={item} onTap={onTap} />
-  }
+
+  useEffect(() => {
+    if (songs.length === 0) {
+      TrackPlayer.setupPlayer().then(() => {
+        console.debug('Player Initialized.')
+      })
+    }
+  }, [songs])
+
   useEffect(() => {
     console.log('Songs to fetch set to', songsToFetch)
   }, [songsToFetch])
+
   useEffect(() => {
-    console.log('Loading state set to', loading)
+    console.log('Loading has been set to', loading)
   }, [loading])
+
   useEffect(() => {
     console.log('Loading page #', page)
-    setLoading(true)
     updateReduxWithValidAccessToken(authentication)
       .then((token) => getSongsOfPlaylist(token, playlistID, page))
       .then(() => {
         setLoading(false)
       })
   }, [page])
+
   useEffect(() => {
     console.log('song length now', songs.length)
   }, [songs])
-  async function loadMore() {
+
+  function renderListItem({ item }) {
+    return <SongListItem data={item} onTap={onTap} />
+  }
+
+  function loadMore() {
     console.log('loadMore')
     if (!loading && songsToFetch > 1) {
       setPage(page + 1)
@@ -108,16 +116,16 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
   function renderFooter() {
     if (!loading) {
       return <MyText> END OF DATA </MyText>
+    } else {
+      console.log('Already loading...')
+      return <MyText> LOADING... </MyText>
     }
-    return <ActivityIndicator animating />
   }
 
   function renderSeparator() {
     return <SeparatorLine />
   }
-  return loading && page === 0 ? (
-    <MyText> Loading... </MyText>
-  ) : (
+  return (
     <ContainerView>
       <MyText> PlaylistID: {playlistID} </MyText>
       <MyButton onPress={pop}>
