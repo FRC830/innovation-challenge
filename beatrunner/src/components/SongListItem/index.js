@@ -36,7 +36,9 @@ function PlayButtonEmitter({ disabled, onEmit }) {
   return null
 }
 function SongListItem({ data, onTap }) {
-  console.log('Rendering ', data.track.name)
+  useEffect(() => {
+    console.log('Rendering in useEffect', data.track.name)
+  })
   const soundURL = data.track.preview_url
   return (
     <ListItemContainer>

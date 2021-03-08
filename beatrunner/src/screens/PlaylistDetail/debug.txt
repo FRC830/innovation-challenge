@@ -1,21 +1,21 @@
-[Sun Mar 07 2021 13:28:30.321]  LOG      Already loading...
-[Sun Mar 07 2021 13:28:30.371]  LOG      Songs to fetch set to 100
-[Sun Mar 07 2021 13:28:30.372]  LOG      Loading has been set to true
-[Sun Mar 07 2021 13:28:30.372]  LOG      Loading page # 0
-[Sun Mar 07 2021 13:28:30.372]  LOG      song length now 0
-[Sun Mar 07 2021 13:28:30.378]  LOG      getSongsOfPlaylist 0
-[Sun Mar 07 2021 13:28:30.520]  DEBUG    Player Initialized.
-[Sun Mar 07 2021 13:28:30.580]  LOG      32 new songs
-[Sun Mar 07 2021 13:28:30.581]  LOG      32 Total songs
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **first 10 songs**
-[Sun Mar 07 2021 13:28:30.814]  LOG      Already loading...
-[Sun Mar 07 2021 13:28:30.832]  LOG      song length now 32
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **first 10 songs**
-[Sun Mar 07 2021 13:28:30.944]  LOG      Already loading...
-[Sun Mar 07 2021 13:28:30.999]  LOG      Songs to fetch set to 0
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **first 10 songs**
-[Sun Mar 07 2021 13:28:31.143]  LOG      Loading has been set to false
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **11 songs**
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **21 songs**
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **30 songs**
-[Sun Mar 07 2021 13:28:30.581]  LOG      Rendering  **32 songs**
+[Sun Mar 07 2021 15:37:03.765]  LOG      Already loading...
+[Sun Mar 07 2021 15:37:03.840]  LOG      Songs to fetch set to 100
+[Sun Mar 07 2021 15:37:03.841]  LOG      Loading has been set to true
+[Sun Mar 07 2021 15:37:03.842]  LOG      Loading page # 0
+[Sun Mar 07 2021 15:37:03.842]  LOG      song length now 0
+[Sun Mar 07 2021 15:37:03.843]  LOG      getSongsOfPlaylist 0
+[Sun Mar 07 2021 15:37:03.865]  DEBUG    Player Initialized.
+[Sun Mar 07 2021 15:37:04.170]  LOG      32 new songs
+[Sun Mar 07 2021 15:37:04.180]  LOG      32 Total songs
+[Sun Mar 07 2021 15:37:04.230]  LOG      Already loading...
+[Sun Mar 07 2021 15:37:04.236]  LOG      Rendering in useEffect first 10
+[Sun Mar 07 2021 15:37:04.246]  LOG      song length now 32
+[Sun Mar 07 2021 15:37:04.390]  LOG      Already loading...
+[Sun Mar 07 2021 15:37:04.402]  LOG      Rendering in useEffect first 10
+[Sun Mar 07 2021 15:37:04.430]  LOG      Songs to fetch set to 0
+[Sun Mar 07 2021 15:37:04.540]  LOG      Rendering in useEffect first 10
+[Sun Mar 07 2021 15:37:04.545]  LOG      Loading has been set to false
+[Sun Mar 07 2021 15:37:04.727]  LOG      Rendering in useEffect first 11
+[Sun Mar 07 2021 15:37:05.560]  LOG      Rendering in useEffect first 22
+[Sun Mar 07 2021 15:37:05.528]  LOG      Rendering in useEffect first 31
+[Sun Mar 07 2021 15:37:05.995]  LOG      Rendering in useEffect first 32

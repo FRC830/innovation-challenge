@@ -4,15 +4,11 @@ import {
   MyText,
   MyButton,
   MySongList,
-  ListItemContainer,
   OverlaidSelectButton,
-  MyImage,
   SeparatorLine,
 } from './styles'
 
-import PressableIcon from '_components/PressableIcon'
 import SongListItem from '_components/SongListItem'
-import { ActivityIndicator } from 'react-native'
 import { StackActions } from '@react-navigation/native'
 import { connect } from 'react-redux'
 import {
