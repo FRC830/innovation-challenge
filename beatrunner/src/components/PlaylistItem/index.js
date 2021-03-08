@@ -6,8 +6,11 @@ const ItemWrapper = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin: 10px;
+  background: #eeeeee;
 `
-const MyButton = styled.TouchableOpacity``
+const MyButton = styled.TouchableOpacity`
+  
+`
 const MyText = styled.Text``
 function PlaylistItem({ data, onInfo, onSelect }) {
   return (

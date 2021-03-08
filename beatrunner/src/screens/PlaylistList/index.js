@@ -91,10 +91,10 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
     <MyText>Loading</MyText>
   ) : (
     <MyView>
-      <MyText>HELLO</MyText>
       <MyButton onPress={() => playSong(accessToken)}>
         <MyText>Play a song using remote</MyText>
       </MyButton>
+      <MyText>test</MyText>
       <MyButton onPress={() => getPlaylists(accessToken)}>
         <MyText>Get playlists</MyText>
       </MyButton>
