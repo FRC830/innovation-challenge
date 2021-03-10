@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { FlatList, Button } from 'react-native'
+import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import {
   addDevice,
@@ -10,7 +10,7 @@ import {
 import DeviceListItem from '_components/DeviceListItem'
 import DeviceEditModal from '_components/DeviceEditModal'
 import FloatingAddButton from '_components/FloatingAddButton'
-import { MyView, MyText } from './styles'
+import { MyView, MyText, Button } from './styles'
 
 // https://reactnative.dev/docs/using-a-listview
 function DeviceListScreen({ navigation, ...props }) {
@@ -52,9 +52,9 @@ function DeviceListScreen({ navigation, ...props }) {
       />
       <FlatList data={props.devices} renderItem={renderListItem} />
       <Button
-        onPress={() => navigation.navigate('Logout')}
-        title="Navigate to logout screen"
-      />
+        onPress={() => navigation.navigate('Logout')}>
+        <MyText>Navigate to logout screen</MyText>
+      </Button>
       <FloatingAddButton />
     </MyView>
   )
