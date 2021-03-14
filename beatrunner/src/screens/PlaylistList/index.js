@@ -8,7 +8,6 @@ import {
 import { MyText, MyButton, MyList, MyView } from './styles'
 import authHandler from '_utils/authenticationHandler'
 import { remote, auth } from 'react-native-spotify-remote'
-import PressableIcon from '_components/PressableIcon'
 import PlaylistItem from '_components/PlaylistItem'
 async function playSong(token) {
   try {

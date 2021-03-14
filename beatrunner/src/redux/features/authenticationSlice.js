@@ -15,7 +15,9 @@ const authenticationSlice = createSlice({
       return state
     },
     setRefreshToken(state, action) {
-      state.refreshToken = action.payload.refreshToken
+      console.log('Setting refresh token to', action.payload.refreshToken)
+      // state.refreshToken = action.payload.refreshToken
+      return { ...state, refreshToken: action.payload.refreshToken }
     },
     setLoadingTrue(state) {
       state.loading = true

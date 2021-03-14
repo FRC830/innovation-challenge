@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
 import {
   ContainerView,
   MyText,
@@ -18,23 +18,46 @@ import {
 import authHandler from '_utils/authenticationHandler'
 import TrackPlayer from 'react-native-track-player'
 
-function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
-  const [songs, setSongs] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(0)
-  const [songsToFetch, setSongsToFetch] = useState(100)
-  let currentlyPlaying = null
-  const { playlistID } = route.params
-  const pop = () => navigation.dispatch(StackActions.pop(1))
+class PlaylistDetailScreen extends Component {
+  constructor(props) {
+    super(props)
+    // { route, navigation, authentication, ...props
+    this.state = {
+      songs: [],
+      loading: false,
+      page: 0,
+      songsToFetch: 100,
+      playlistID: props.route.params.playlistID,
+    }
+    this.navigation = props.navigation
+    this.authentication = props.authentication
+    this.token = null
+  }
 
-  const getSongsOfPlaylist = async (aToken, aPlaylist, aPage, aLimit) => {
-    console.log('getSongsOfPlaylist', aPage)
+  getSongsSafely = () => {
+    updateReduxWithValidAccessToken(this.authentication).then((token) =>
+      this.getSongsOfPlaylist(token),
+    )
+  }
+  componentDidMount() {
+    TrackPlayer.setupPlayer().then(() => {
+      console.debug('Player Initialized.')
+    })
+    this.getSongsSafely()
+  }
+
+  pop = () => this.navigation.dispatch(StackActions.pop(1))
+  currentlyPlaying = null
+
+  getSongsOfPlaylist = async (aToken) => {
+    console.log('getSongsOfPlaylist', this.state.page)
+    console.log('limit', this.state.songsToFetch)
     const response = await authHandler.get(
-      `/playlists/${aPlaylist}/tracks`,
+      `/playlists/${this.state.playlistID}/tracks`,
       aToken,
       {
-        offset: 100 * aPage,
-        limit: aLimit,
+        offset: 100 * this.state.page,
+        limit: this.state.songsToFetch,
         fields:
           'total,items(track(preview_url, id, name, duration_ms, artists, album(!available_markets)))',
       },
@@ -43,74 +66,47 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
       console.log(response.data.items.length, 'new songs')
       console.log(response.data.total, 'Total songs')
       let remainingSongs =
-        response.data.total - songs.length - response.data.items.length
+        response.data.total -
+        this.state.songs.length -
+        response.data.items.length
       if (remainingSongs >= 0) {
-        setSongs([...songs, ...response.data.items])
+        this.setState({ songs: [...this.state.songs, ...response.data.items] })
       } else {
         remainingSongs = 0
       }
-      setSongsToFetch(Math.min(100, remainingSongs))
+      this.setState({ songsToFetch: Math.min(100, remainingSongs) })
     } else {
       console.error('There was a problem fetching data')
     }
   }
-  async function onTap(song) {
+  onTap = async (song) => {
     if (song !== null) {
-      if (currentlyPlaying !== song) {
+      if (this.currentlyPlaying !== song) {
         await TrackPlayer.reset()
         await TrackPlayer.add({
           url: song,
         })
       }
       await TrackPlayer.play()
-      currentlyPlaying = song
+      this.currentlyPlaying = song
     } else {
       await TrackPlayer.pause()
     }
   }
 
-  useEffect(() => {
-    if (songs.length === 0) {
-      TrackPlayer.setupPlayer().then(() => {
-        console.debug('Player Initialized.')
-      })
-    }
-  }, [songs])
-
-  useEffect(() => {
-    console.log('Songs to fetch set to', songsToFetch)
-  }, [songsToFetch])
-
-  useEffect(() => {
-    console.log('Loading has been set to', loading)
-  }, [loading])
-
-  useEffect(() => {
-    console.log('Loading page #', page)
-    updateReduxWithValidAccessToken(authentication)
-      .then((token) => getSongsOfPlaylist(token, playlistID, page))
-      .then(() => {
-        setLoading(false)
-      })
-  }, [page])
-
-  useEffect(() => {
-    console.log('song length now', songs.length)
-  }, [songs])
-
-  function renderListItem({ item }) {
-    return <SongListItem data={item} onTap={onTap} />
+  renderListItem = ({ item }) => {
+    return <SongListItem data={item} onTap={this.onTap} />
   }
 
-  function loadMore() {
+  loadMore = () => {
     console.log('loadMore')
-    if (!loading && songsToFetch > 1) {
-      setPage(page + 1)
-    }
+    this.setState({ page: this.state.page + 1 }, () => {
+      this.getSongsSafely()
+    })
   }
 
-  function renderFooter() {
-    if (!loading) {
+  renderFooter = () => {
+    if (!this.state.loading) {
       return <MyText> END OF DATA </MyText>
     } else {
       console.log('Already loading...')
@@ -118,30 +114,32 @@ function PlaylistDetailScreen({ route, navigation, authentication, ...props }) {
     }
   }
 
-  function renderSeparator() {
+  renderSeparator = () => {
     return <SeparatorLine />
   }
-  return (
-    <ContainerView>
-      <MyText> PlaylistID: {playlistID} </MyText>
-      <MyButton onPress={pop}>
-        <MyText>Go back</MyText>
-      </MyButton>
-      <MySongList
-        data={songs}
-        renderItem={renderListItem}
-        keyExtractor={(_, index) => index.toString()}
-        ItemSeparatorComponent={renderSeparator}
-        ListFooterComponent={renderFooter}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.1} // They must scroll 90% through data to load
-      />
-      <OverlaidSelectButton
-        onPress={() => navigation.navigate('PlaylistSettings')}>
-        <MyText> Select </MyText>
-      </OverlaidSelectButton>
-    </ContainerView>
-  )
+  render() {
+    return (
+      <ContainerView>
+        <MyText> PlaylistID: {this.state.playlistID} </MyText>
+        <MyButton onPress={this.pop}>
+          <MyText>Go back</MyText>
+        </MyButton>
+        <MySongList
+          data={this.state.songs}
+          renderItem={this.renderListItem}
+          keyExtractor={(_, index) => index.toString()}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderFooter}
+          onEndReached={this.loadMore}
+          onEndReachedThreshold={0.1} // They must scroll 90% through data to load
+        />
+        <OverlaidSelectButton
+          onPress={() => this.navigation.navigate('PlaylistSettings')}>
+          <MyText> Select </MyText>
+        </OverlaidSelectButton>
+      </ContainerView>
+    )
+  }
 }
 
 async function updateReduxWithValidAccessToken({
