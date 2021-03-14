@@ -40,9 +40,9 @@ class PlaylistDetailScreen extends Component {
     )
   }
   componentDidMount() {
-    TrackPlayer.setupPlayer().then(() => {
-      console.debug('Player Initialized.')
-    })
+    // TrackPlayer.setupPlayer().then(() => {
+    //   console.debug('Player Initialized.')
+    // })
     this.getSongsSafely()
   }
 

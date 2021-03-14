@@ -42,7 +42,7 @@ async function updateReduxWithValidAccessToken({
       accessExpiration: response.accessTokenExpirationDate,
     })
     setRefreshToken({
-      refreshToken: response.refreshToken,
+      refreshToken: response.refreshToken, // setting the NEW refreshtoken
     })
   }
   return accessToken

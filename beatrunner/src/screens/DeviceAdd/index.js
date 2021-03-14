@@ -10,9 +10,6 @@ function DeviceAddScreen(props) {
   const [selectedDevice, setSelectedDevice] = useState(null)
   const manager = new BleManager()
   const [deviceList, setDeviceList] = useState([])
-  const appendDeviceList = (device) => {
-    setDeviceList([...deviceList, device])
-  }
   // https://polidea.github.io/react-native-ble-plx/ FOR IOS -- do not delete yet...
   const subscription = manager.onStateChange((state) => {
     console.debug(`Received state: ${state}`)
@@ -27,7 +24,7 @@ function DeviceAddScreen(props) {
         console.error(error)
         throw error
       }
-      appendDeviceList(device)
+      setDeviceList([...deviceList, device])
     })
   }
   // seperator, index, item
