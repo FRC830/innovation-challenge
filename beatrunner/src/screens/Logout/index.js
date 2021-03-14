@@ -6,7 +6,7 @@ import {
   setRefreshToken,
 } from '_redux/features/authenticationSlice'
 
-import { View, MyButton, Text } from './styles'
+import { View, NavigateButton, Text, LogoutButton } from './styles'
 
 // "es6 object destructuring" eli/anthony if you are curious why it looks so weird
 function LogoutScreen({ navigation, ...props }) {
@@ -19,12 +19,12 @@ function LogoutScreen({ navigation, ...props }) {
   }
   return (
     <View>
-      <MyButton onPress={navigateToList}>
+      <NavigateButton onPress={navigateToList}>
         <Text>Navigate to device list</Text>
-      </MyButton>
-      <MyButton onPress={onPressLogout}>
-        <Text>Press to logout</Text>
-      </MyButton>
+      </NavigateButton>
+      <LogoutButton onPress={onPressLogout}>
+        <Text>Logout</Text>
+      </LogoutButton>
     </View>
   )
 }
