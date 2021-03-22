@@ -4,11 +4,12 @@ import React from 'react'
 const IconButton = styled.TouchableOpacity`
   margin-right: 5px;
 `
-const MyIcon = styled(Icon)`
-  font-size: 25px;
-`
 
-function PressableIcon({ name, onPress }) {
+function PressableIcon({ name, onPress, color = 'black', size = '25' }) {
+  const MyIcon = styled(Icon)`
+    font-size: ${size}px;
+    color: ${color};
+  `
   return (
     <IconButton onPress={onPress}>
       <MyIcon name={name} />

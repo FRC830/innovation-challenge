@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import {
   addDevice,
@@ -10,8 +9,9 @@ import {
 import DeviceListItem from '_components/DeviceListItem'
 import DeviceEditModal from '_components/DeviceEditModal'
 import FloatingAddButton from '_components/FloatingAddButton'
-import { MyView, MyText, Button } from './styles'
-
+import { MyView, MyText, TitleWrapper, MyList } from './styles'
+import Seperator from '_components/Seperator'
+import PressableIcon from '_components/PressableIcon'
 // https://reactnative.dev/docs/using-a-listview
 function DeviceListScreen({ navigation, ...props }) {
   const [modalVisible, setModalVisible] = useState(false)
@@ -44,17 +44,26 @@ function DeviceListScreen({ navigation, ...props }) {
   // note that the example uses javascript object for styles, though class + stylesheets may be better.
   return (
     <MyView>
-      <MyText> Device List Screen </MyText>
+      <TitleWrapper>
+        <MyText> Device List </MyText>
+        <PressableIcon
+          name={'cog'}
+          size={40}
+          color={'white'}
+          onPress={() => navigation.navigate('Settings')}
+        />
+      </TitleWrapper>
+      <Seperator />
       <DeviceEditModal
         visible={modalVisible}
         data={selectedItem}
         onDismiss={handleEditDismiss}
       />
-      <FlatList data={props.devices} renderItem={renderListItem} />
-      <Button
-        onPress={() => navigation.navigate('Logout')}>
-        <MyText>Navigate to logout screen</MyText>
-      </Button>
+      <MyList
+        ItemSeparatorComponent={() => <Seperator />}
+        data={props.devices}
+        renderItem={renderListItem}
+      />
       <FloatingAddButton />
     </MyView>
   )

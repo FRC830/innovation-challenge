@@ -6,10 +6,19 @@ import {
   setRefreshToken,
 } from '_redux/features/authenticationSlice'
 
-import { View, NavigateButton, Text, LogoutButton } from './styles'
+import {
+  View,
+  NavigateButton,
+  Text,
+  LogoutButton,
+  CenterButtons,
+  Title,
+  Buttons,
+} from './styles'
 
+import Seperator from '_components/Seperator'
 // "es6 object destructuring" eli/anthony if you are curious why it looks so weird
-function LogoutScreen({ navigation, ...props }) {
+function SettingsScreen({ navigation, ...props }) {
   async function onPressLogout() {
     props.setAccessToken({ accessToken: null, accessExpiration: null })
     props.setRefreshToken({ refreshToken: null })
@@ -19,12 +28,16 @@ function LogoutScreen({ navigation, ...props }) {
   }
   return (
     <View>
-      <NavigateButton onPress={navigateToList}>
-        <Text>Navigate to device list</Text>
-      </NavigateButton>
-      <LogoutButton onPress={onPressLogout}>
-        <Text>Logout</Text>
-      </LogoutButton>
+      <Title>Settings</Title>
+      <Seperator />
+      <Buttons>
+        <NavigateButton onPress={navigateToList}>
+          <Text>Navigate to device list</Text>
+        </NavigateButton>
+        <LogoutButton onPress={onPressLogout}>
+          <Text>Logout</Text>
+        </LogoutButton>
+      </Buttons>
     </View>
   )
 }
@@ -38,4 +51,4 @@ const mapDispatchToProps = {
   setRefreshToken,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen)

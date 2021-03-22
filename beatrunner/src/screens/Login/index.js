@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 
 import authHandler from '_utils/authenticationHandler'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ import {
   setRefreshToken,
 } from '_redux/features/authenticationSlice'
 
-import { MyButton, MyButtonText } from './styles'
+import { MyButton, MyButtonText, MyIcon, MyView, MyImage } from './styles'
 
 function LoginScreen(props) {
   async function onPressLogin() {
@@ -21,13 +21,16 @@ function LoginScreen(props) {
     props.setRefreshToken({ refreshToken: authenticationObject.refreshToken })
     console.log(authenticationObject)
   }
+  // style={{ aspectRatio: 760 / 564, width: '70%', height: 'auto' }}
   return (
-    <View>
+    <MyView>
+      <MyImage source={require('_assets/logo.png')} />
       <MyButton onPress={onPressLogin}>
         <MyButtonText>LOGIN WITH SPOTIFY</MyButtonText>
+        <MyIcon name={'spotify'} />
       </MyButton>
       <Text> {props.authentication.accessExpiration} </Text>
-    </View>
+    </MyView>
   )
 }
 const mapStateToProps = (state) => {

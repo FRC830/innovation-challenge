@@ -5,7 +5,17 @@ import {
   setRefreshToken,
 } from '_redux/features/authenticationSlice'
 
-import { MyText, MyButton, MyList, MyView } from './styles'
+import {
+  MyText,
+  MyButton,
+  MyList,
+  MyView,
+  TitleView,
+  TitleSeperator,
+  TitleText,
+} from './styles'
+import Seperator from '_components/Seperator'
+import PressableIcon from '_components/PressableIcon'
 import authHandler from '_utils/authenticationHandler'
 import { remote, auth } from 'react-native-spotify-remote'
 import PlaylistItem from '_components/PlaylistItem'
@@ -56,6 +66,7 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
     updateReduxWithValidAccessToken(authentication).then((token) => {
       setLoading(false)
       setLocalAccessToken(token)
+      getPlaylists(token)
     })
   }, [authentication])
 
@@ -87,17 +98,30 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
     )
   }
   return loading ? (
-    <MyText>Loading</MyText>
+    <TitleText>Loading</TitleText>
   ) : (
     <MyView>
-      <MyButton onPress={() => playSong(accessToken)}>
+      <TitleView>
+        <TitleText>Select Playlist </TitleText>
+        <PressableIcon
+          name={'cog'}
+          size={40}
+          color={'white'}
+          onPress={() => navigation.navigate('Settings')}
+        />
+      </TitleView>
+      <TitleSeperator />
+      {/* <MyButton onPress={() => playSong(accessToken)}>
         <MyText>Play a song using remote</MyText>
-      </MyButton>
-      <MyText>test</MyText>
-      <MyButton onPress={() => getPlaylists(accessToken)}>
+      </MyButton> */}
+      {/* <MyButton onPress={() => }>
         <MyText>Get playlists</MyText>
-      </MyButton>
-      <MyList data={playlists} renderItem={renderListItem} />
+      </MyButton> */}
+      <MyList
+        data={playlists}
+        renderItem={renderListItem}
+        ItemSeparatorComponent={() => <Seperator />}
+      />
     </MyView>
   )
 }

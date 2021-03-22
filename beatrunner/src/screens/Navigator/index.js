@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { connect } from 'react-redux'
-import LogoutScreen from '_screens/Logout'
+import SettingsScreen from '_screens/Settings'
 import LoginScreen from '_screens/Login'
 import DeviceListScreen from '_screens/DeviceList'
 import DeviceAddScreen from '_screens/DeviceAdd'
@@ -13,11 +13,11 @@ const Stack = createStackNavigator()
 function Navigator(props) {
   const mainApplicationStack = (
     <>
-      <Stack.Screen name="Logout" component={LogoutScreen} />
       <Stack.Screen name="DeviceList" component={DeviceListScreen} />
       <Stack.Screen name="DeviceAdd" component={DeviceAddScreen} />
       <Stack.Screen name="PlaylistList" component={PlaylistListScreen} />
       <Stack.Screen name="PlaylistDetail" component={PlaylistDetailScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen
         name="PlaylistSettings"
         component={PlaylistSettingsScreen}
@@ -30,7 +30,12 @@ function Navigator(props) {
     ) : (
       mainApplicationStack
     )
-  return <Stack.Navigator>{currentScreenStack}</Stack.Navigator>
+  // https://aboutreact.com/react-native-hide-navigation-bar-and-make-screen-full-screen/
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {currentScreenStack}
+    </Stack.Navigator>
+  )
 }
 const mapStateToProps = (state) => {
   return {
