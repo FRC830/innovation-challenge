@@ -5,11 +5,14 @@ import PressableIcon from '_components/PressableIcon'
 const ListItemContainer = styled.View`
   display: flex;
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
 `
 
 const LeftSideGroup = styled.View`
   display: flex;
+  flex-shrink: 1;
+  align-items: center;
   flex-direction: row;
 `
 const AlbumCover = styled.Image`
@@ -17,7 +20,11 @@ const AlbumCover = styled.Image`
   height: 64px;
 `
 
-const SongTitle = styled.Text``
+const SongTitle = styled.Text`
+  margin: 10px;
+  color: white;
+  flex-shrink: 1;
+`
 
 function PlayButtonEmitter({ disabled, onEmit }) {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -30,6 +37,7 @@ function PlayButtonEmitter({ disabled, onEmit }) {
           onEmit(!isPlaying)
           setIsPlaying(!isPlaying)
         }}
+        color={'white'}
       />
     )
   }

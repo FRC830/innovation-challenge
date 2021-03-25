@@ -4,9 +4,12 @@ export const ContainerView = styled.View`
   display: flex;
   flex-direction: column;
   flex: 1;
+  background: #233059;
 `
 
-export const MyText = styled.Text``
+export const MyText = styled.Text`
+  color: white;
+`
 
 export const MyButton = styled.TouchableOpacity``
 
@@ -28,6 +31,7 @@ export const OverlaidSelectButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  background: red;
+  background: #0b708a;
+  elevation: 2;
   border-radius: 20px;
 `

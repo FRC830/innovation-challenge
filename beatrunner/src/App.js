@@ -23,6 +23,11 @@ let persistor = persistStore(store)
 
 import { NavigationContainer } from '@react-navigation/native'
 
+// import { blemulator } from 'react-native-blemulator'
+// import { simulatedPeripheral } from '_utils/simulatedDevice'
+// blemulator.addPeripheral(simulatedPeripheral)
+// blemulator.simulate()
+
 function App() {
   // Provider - Redux store
   // PersistGate - Ensure that our persisted database is loaded

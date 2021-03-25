@@ -8,6 +8,7 @@ import DeviceAddScreen from '_screens/DeviceAdd'
 import PlaylistListScreen from '_screens/PlaylistList'
 import PlaylistDetailScreen from '_screens/PlaylistDetail'
 import PlaylistSettingsScreen from '_screens/PlaylistSettings'
+import PlayScreen from '_screens/Play'
 const Stack = createStackNavigator()
 
 function Navigator(props) {
@@ -18,6 +19,8 @@ function Navigator(props) {
       <Stack.Screen name="PlaylistList" component={PlaylistListScreen} />
       <Stack.Screen name="PlaylistDetail" component={PlaylistDetailScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Play" component={PlayScreen} />
+
       <Stack.Screen
         name="PlaylistSettings"
         component={PlaylistSettingsScreen}

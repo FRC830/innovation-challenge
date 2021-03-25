@@ -5,16 +5,13 @@ import {
   MyButton,
   MySongList,
   OverlaidSelectButton,
-  SeparatorLine,
 } from './styles'
 
 import SongListItem from '_components/SongListItem'
 import { StackActions } from '@react-navigation/native'
+import Seperator from '_components/Seperator'
 import { connect } from 'react-redux'
-import {
-  setAccessToken,
-  setRefreshToken,
-} from '_redux/features/authenticationSlice'
+import { updateReduxWithValidAccessToken } from '_utils/reduxTokenHelper'
 import authHandler from '_utils/authenticationHandler'
 import TrackPlayer from 'react-native-track-player'
 
@@ -114,9 +111,6 @@ class PlaylistDetailScreen extends Component {
     }
   }
 
-  renderSeparator = () => {
-    return <SeparatorLine />
-  }
   render() {
     return (
       <ContainerView>
@@ -128,39 +122,22 @@ class PlaylistDetailScreen extends Component {
           data={this.state.songs}
           renderItem={this.renderListItem}
           keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={this.renderSeparator}
+          ItemSeparatorComponent={() => <Seperator />}
           ListFooterComponent={this.renderFooter}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.1} // They must scroll 90% through data to load
         />
         <OverlaidSelectButton
-          onPress={() => this.navigation.navigate('PlaylistSettings')}>
-          <MyText> Select </MyText>
+          onPress={() =>
+            this.navigation.navigate('PlaylistSettings', {
+              playlistID: this.state.playlistID,
+            })
+          }>
+          <MyText> Select Playlist </MyText>
         </OverlaidSelectButton>
       </ContainerView>
     )
   }
-}
-
-async function updateReduxWithValidAccessToken({
-  accessToken,
-  accessExpiration,
-  refreshToken,
-}) {
-  if (accessToken === null || new Date() > new Date(accessExpiration)) {
-    console.log('Access Token is Invalid, Refreshing...')
-    console.log('refreshToken=', refreshToken)
-    const response = await authHandler.refreshLogin(refreshToken)
-    accessToken = response.accessToken
-    setAccessToken({
-      accessToken,
-      accessExpiration: response.accessTokenExpirationDate,
-    })
-    setRefreshToken({
-      refreshToken: response.refreshToken,
-    })
-  }
-  return accessToken
 }
 
 // enough boilerplate ;)
@@ -170,8 +147,8 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = {
-  setAccessToken,
-  setRefreshToken,
+  // setAccessToken,
+  // setRefreshToken,
 }
 export default connect(
   mapStateToProps,

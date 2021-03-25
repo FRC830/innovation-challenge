@@ -3,19 +3,20 @@ import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { BleManager } from 'react-native-ble-plx'
 import DeviceConnectModal from '_components/DeviceConnectModal'
 import { ScanButton } from './styles'
+
 function DeviceAddScreen(props) {
-  const [bleStackLaunched, setBleStackLaunched] = useState(true)
-  console.log(bleStackLaunched)
+  console.log('Component Rendering...')
+  const [bleStackLaunched, setBleStackLaunched] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
-  const [selectedDevice, setSelectedDevice] = useState(null)
-  const manager = new BleManager()
   const [deviceList, setDeviceList] = useState([])
+  let selectedDevice = null
+  const manager = new BleManager()
   // https://polidea.github.io/react-native-ble-plx/ FOR IOS -- do not delete yet...
   const subscription = manager.onStateChange((state) => {
     console.debug(`Received state: ${state}`)
     if (state === 'PoweredOn') {
-      setBleStackLaunched(true)
       subscription.remove()
+      setBleStackLaunched(true)
     }
   })
   function startScan() {
@@ -31,7 +32,11 @@ function DeviceAddScreen(props) {
   function renderDevice({ item }) {
     return (
       <View>
-        <TouchableOpacity onPress={attemptConnect(item)}>
+        <TouchableOpacity
+          onPress={(item) => {
+            console.log('Pressing device')
+            attemptConnect(item)
+          }}>
           <Text> {item.name} </Text>
         </TouchableOpacity>
       </View>
@@ -39,7 +44,9 @@ function DeviceAddScreen(props) {
   }
 
   function attemptConnect(item) {
-    setSelectedDevice(item)
+    console.log('Attempting connection')
+    // setSelectedDevice(item)
+    selectedDevice = item
     setModalVisible(true)
   }
 

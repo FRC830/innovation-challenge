@@ -17,46 +17,9 @@ import {
 import Seperator from '_components/Seperator'
 import PressableIcon from '_components/PressableIcon'
 import authHandler from '_utils/authenticationHandler'
-import { remote, auth } from 'react-native-spotify-remote'
+import { updateReduxWithValidAccessToken } from '_utils/reduxTokenHelper'
 import PlaylistItem from '_components/PlaylistItem'
-async function playSong(token) {
-  try {
-    await auth.authorize({
-      clientID: authHandler.spotifyAuthConfig.clientId,
-      redirectURL: authHandler.spotifyAuthConfig.redirectUrl,
-      skipAuthAccessToken: token, // this will just be returned in the android flow
-    })
-    await remote.connect(token)
-    await remote.playUri('spotify:track:6IA8E2Q5ttcpbuahIejO74')
-  } catch (error) {
-    console.error(error)
-    throw error
-  }
-}
 
-async function updateReduxWithValidAccessToken({
-  accessToken,
-  accessExpiration,
-  refreshToken,
-}) {
-  console.log('Current accessToken is:', accessToken)
-  console.log(new Date(), accessExpiration)
-  if (accessToken === null || new Date() > new Date(accessExpiration)) {
-    console.log('Access Token is Invalid, Refreshing...')
-    console.log('refreshToken=', refreshToken)
-    const response = await authHandler.refreshLogin(refreshToken)
-    console.warn('Response', response)
-    accessToken = response.accessToken
-    setAccessToken({
-      accessToken,
-      accessExpiration: response.accessTokenExpirationDate,
-    })
-    setRefreshToken({
-      refreshToken: response.refreshToken, // setting the NEW refreshtoken
-    })
-  }
-  return accessToken
-}
 function PlaylistListScreen({ authentication, navigation, ...props }) {
   const [playlists, setPlaylists] = useState([])
   const [loading, setLoading] = useState(true)
@@ -125,13 +88,12 @@ function PlaylistListScreen({ authentication, navigation, ...props }) {
     </MyView>
   )
 }
+// setAccessToken,
+// setRefreshToken,
 const mapStateToProps = (state) => {
   return {
     authentication: state.authentication,
   }
 }
-const mapDispatchToProps = {
-  setAccessToken,
-  setRefreshToken,
-}
+const mapDispatchToProps = {}
 export default connect(mapStateToProps, mapDispatchToProps)(PlaylistListScreen)

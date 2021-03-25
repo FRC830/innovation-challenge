@@ -9,11 +9,11 @@ const deviceSlice = createSlice({
   name: 'devices',
   initialState: {
     list: [
-      {
-        id: 'fake_device',
-        name: 'Fake Device',
-        canRemove: true,
-      },
+      // {
+      //   id: 'fake_device',
+      //   name: 'Fake Device',
+      //   canRemove: true,
+      // },
     ],
   },
   reducers: {
