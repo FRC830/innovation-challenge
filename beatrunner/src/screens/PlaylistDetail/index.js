@@ -104,7 +104,7 @@ class PlaylistDetailScreen extends Component {
 
   renderFooter = () => {
     if (!this.state.loading) {
-      return <MyText> END OF DATA </MyText>
+      return <MyText></MyText>
     } else {
       console.log('Already loading...')
       return <MyText> LOADING... </MyText>
@@ -114,10 +114,10 @@ class PlaylistDetailScreen extends Component {
   render() {
     return (
       <ContainerView>
-        <MyText> PlaylistID: {this.state.playlistID} </MyText>
+        {/* <MyText> PlaylistID: {this.state.playlistID} </MyText>
         <MyButton onPress={this.pop}>
           <MyText>Go back</MyText>
-        </MyButton>
+        </MyButton> */}
         <MySongList
           data={this.state.songs}
           renderItem={this.renderListItem}
